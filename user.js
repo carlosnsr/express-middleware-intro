@@ -8,11 +8,16 @@ router.use(function (req, res, next) {
 })
 
 // a middleware sub-stack shows request info for any type of HTTP request to the /user/:id path
+// "Stack" because we are specifying more than one middleware (i.e. each funciton),
+// and it is going to start at the top and work its way down
+// "Sub-stack" because the stack is only on one route (i.e. '/user/:id')
+// and is already part of a larger stack of all the other middlewares that we have defined so far
 router.use('/user/:id',
   function (req, res, next) {
     console.log('Request URL:', req.originalUrl)
     next()
-  }, function (req, res, next) {
+  },
+  function (req, res, next) {
     console.log('Request Type:', req.method)
     next()
   }
@@ -22,10 +27,13 @@ router.use('/user/:id',
 router.get('/user/:id',
   function (req, res, next) {
     // if the user ID is 0, skip to the next router
-    if (req.params.id === '0') next('route')
+    if (req.params.id === '0')
+      next('route')
     // otherwise pass control to the next middleware function in this stack
-    else next()
-  }, function (req, res, next) {
+    else
+      next()
+  },
+  function (req, res, next) {
     // render a regular page
     res.render('regular')
   }
