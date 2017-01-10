@@ -34,15 +34,14 @@ router.get('/:id',
       next()
   },
   function (req, res, next) {
-    // render a regular page
-    res.render('regular')
+    res.send("Show REGULAR page")
   }
 )
 
 // handler for the /user/:id path, which renders a special page
 router.get('/:id', function (req, res, next) {
   console.log(req.params.id)
-  res.render('special')
+  res.send("Show SPECIAL page")
 })
 
 module.exports = router
