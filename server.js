@@ -19,6 +19,10 @@ app.use(function(req, res, next) {
   }
 });
 
+// mount the Users router on the app
+var users_router = require('./user.js')
+app.use('/users', users_router)
+
 app.use(function(req, res, next) {
   console.log('Hello from second the middleware!');
   next();

@@ -1,4 +1,4 @@
-var app = express()
+var express = require('express')
 var router = express.Router()
 
 // a middleware function with no mount path. This code is executed for every request to the router
@@ -12,7 +12,7 @@ router.use(function (req, res, next) {
 // and it is going to start at the top and work its way down
 // "Sub-stack" because the stack is only on one route (i.e. '/user/:id')
 // and is already part of a larger stack of all the other middlewares that we have defined so far
-router.use('/user/:id',
+router.use('/:id',
   function (req, res, next) {
     console.log('Request URL:', req.originalUrl)
     next()
@@ -24,7 +24,7 @@ router.use('/user/:id',
 )
 
 // a middleware sub-stack that handles GET requests to the /user/:id path
-router.get('/user/:id',
+router.get('/:id',
   function (req, res, next) {
     // if the user ID is 0, skip to the next router
     if (req.params.id === '0')
@@ -40,10 +40,9 @@ router.get('/user/:id',
 )
 
 // handler for the /user/:id path, which renders a special page
-router.get('/user/:id', function (req, res, next) {
+router.get('/:id', function (req, res, next) {
   console.log(req.params.id)
   res.render('special')
 })
 
-// mount the router on the app
-app.use('/', router)
+module.exports = router
